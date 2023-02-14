@@ -1,11 +1,10 @@
-CFLAGS = -Wall -Werror -g 
+CFLAGS = -Wall -Werror -g
 CC     = gcc $(CFLAGS)
 SHELL  = /bin/bash
 CWD    = $(shell pwd | sed 's/.*\///g')
 
 PROGRAMS = \
 	batt_main \
-	puzzlebox   \
 
 
 all : $(PROGRAMS)
@@ -33,15 +32,6 @@ batt_sim.o : batt_sim.c batt.h
 batt_update.o : batt_update.c batt.h
 	$(CC) -c $<
 
-
-# debugging problem
-puzzlebox.o : puzzlebox.c
-	$(CC) -c $<
-
-puzzlebox : puzzlebox.o
-	$(CC) -o $@ $^
-
-
 # Testing Targets
 VALGRIND = valgrind --leak-check=full --show-leak-kinds=all
 
@@ -65,5 +55,3 @@ test-p2 : puzzlebox
 
 clean-tests : clean
 	rm -f test-data/*.tmp test_batt_update
-
-
