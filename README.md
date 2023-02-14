@@ -1,5 +1,5 @@
-#baseballulator
-##marty altmann, February 2023
+# baseballulator
+## marty altmann, February 2023
 
 baseballulator is an all-encompassing driver for an LED display. 
 it shows a ticker of current scores, matchups and weather forecasts for games.
