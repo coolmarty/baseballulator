@@ -5,53 +5,53 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "batt.h"
+#include "batter.h"
 
-int set_batt_from_ports(batt_t *batt){//initializes battery values
-	if(BATT_VOLTAGE_PORT < 0){
+int set_batter_from_ports(batter_t *batter){//initializes batterery values
+	if(BATTER_SCORE_PORT < 0){
 		return 1;
 	}
-	batt->volts = BATT_VOLTAGE_PORT;
-	if(batt->volts > 3800){
-		batt->percent = 100;
+	batter->volts = BATTER_SCORE_PORT;
+	if(batter->volts > 3800){
+		batter->percent = 100;
 	}
-	else if(batt->volts < 3000){
-		batt->percent = 0;
+	else if(batter->volts < 3000){
+		batter->percent = 0;
 	}
 	else{
-		batt->percent = (batt->volts - 3000) / 8;//calculates battery percent
+		batter->percent = (batter->volts - 3000) / 8;//calculates batterery percent
 	}
-	batt->mode = BATT_STATUS_PORT;
+	batter->mode = BATTER_STATUS_PORT;
 	return 0;
 }
 
 
 
-int set_display_from_batt(batt_t batt, int *display){
+int set_display_from_batter(batter_t batter, int *display){
 	*display = 0;//sets display to all zeroes
 	int numarray[10] = {0b0111111, 0b0000011, 0b1101101, 0b1100111, 0b1010011, 0b1110110, 0b1111110, 0b0100011, 0b1111111, 0b1110111};//array of bit combinations that make up the numbers
 
-	if(batt.percent > 89){//this block sets the battery indicator levels
+	if(batter.percent > 89){//this block sets the batterery indicator levels
 		*display = 0b11111 << 24;
 	}
-	else if(69 < batt.percent && batt.percent < 89){
+	else if(69 < batter.percent && batter.percent < 89){
 		*display = 0b11110 << 24;
 	}
-	else if(49 < batt.percent && batt.percent < 69){
+	else if(49 < batter.percent && batter.percent < 69){
 		*display = 0b11100 << 24;
 	}
-	else if(29 < batt.percent && batt.percent < 49){
+	else if(29 < batter.percent && batter.percent < 49){
 		*display = 0b11000 << 24;
 	}
-	else if(4 < batt.percent && batt.percent < 29){
+	else if(4 < batter.percent && batter.percent < 29){
 		*display = 0b10000 << 24;
 	}
 	int dig1 = 0;
 	int dig2 = 0;
 	int dig3 = 0;
-	short init_voltage = batt.volts;
-	char init_percent = batt.percent;
-	if(batt.mode == 0){//Voltage mode
+	short init_voltage = batter.volts;
+	char init_percent = batter.percent;
+	if(batter.mode == 0){//Voltage mode
 		*display += 0b011 << 21;//sets Voltage indicator
 		int dig4 = init_voltage % 10;//isolates fourth number
 		if(dig4 >= 5){//rounding case
@@ -79,10 +79,10 @@ int set_display_from_batt(batt_t batt, int *display){
 			*display ^= numarray[0] << 7;
 			*display ^= numarray[0];
 		}
-		else if(batt.percent == 0){
+		else if(batter.percent == 0){
 			*display ^= numarray[0];
 		}
-		else if(batt.percent < 10){
+		else if(batter.percent < 10){
 			*display ^= numarray[dig3];
 		}
 		else{
@@ -90,7 +90,7 @@ int set_display_from_batt(batt_t batt, int *display){
 			*display ^= numarray[dig3];
 		}
 	}
-	if(batt.volts < 0){
+	if(batter.volts < 0){
 		return 1;
 	}
 	return 0;
@@ -98,11 +98,11 @@ int set_display_from_batt(batt_t batt, int *display){
 
 
 
-int batt_update(){
-	batt_t batt = {.volts=-100, .percent=-1, .mode=-1};//makes dummy battery
-	int err = set_batt_from_ports(&batt);//sets battery from ports
+int batter_update(){
+	batter_t batter = {.volts=-100, .percent=-1, .mode=-1};//makes dummy batterery
+	int err = set_batter_from_ports(&batter);//sets batterery from ports
 	if(err != 1){
-		set_display_from_batt(batt, &BATT_DISPLAY_PORT);//sets display from battery
+		set_display_from_batter(batter, &BATTER_DISPLAY_PORT);//sets display from batterery
 		return 0;
 	}
 	return 1;
