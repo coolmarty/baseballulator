@@ -10,12 +10,12 @@
 
 #define batter_MAX_BITS 30
 
-// Convenience struct for representing the batterery display  as characters
+// Convenience struct for representing the batter display  as characters
 typedef struct {
   char chars[7][32];
 } batter_display;
 
-// Tied to the batterery, provides a measure of voltage in units of 0.01
+// Tied to the batter, provides a measure of voltage in units of 0.01
 // volts.
 short BATTER_SCORE_PORT;
 

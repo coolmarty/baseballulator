@@ -1,23 +1,22 @@
 // batter_sim.c:
-//
-// batterery meter simulator main program and supporting functions. Read
-// voltage sensor value and mode (volts or percent) from the command
-// line and show the results of running functions from batter_update.c
-// on the screen.
+
+
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "batter.h"
 
-#define VOLTAGE_FLAG 0
+//index MLB teams from west to east, NL to AL, and based off their 2022 standings (ex. Dodgers at 0, Red Sox at 30)
+// add logic to add a favorite team and splash their info, or to scroll standings
+#define TEAM_FLAG 0
 #define PERCENT_FLAG 1
 
 int main(int argc, char **argv){
 
-  if(argc < 3){
-    printf("usage: %s {voltage_val} {V | P}\n",argv[0]);
-    printf("  arg1 voltage_val: integer, units of 0.001 volts \n");
+  if(argc > 2){
+    printf("usage: initialize with your favorite team, or enter -1 to see standings\n",argv[0]);
+    printf("  arg1 favorite team \n");
     printf("  arg2 V or P: Voltage or Percent display\n");
     return 0;
   }
@@ -43,7 +42,7 @@ int main(int argc, char **argv){
     return 1;
   }
 
-  batter_t batter = {.volts=-100, .percent=-1, .mode=-1};
+  batter_t batter = {.war=-100, .average=-1, .on_base_percentage=-1, .slugging = -1};
   int result = set_batter_from_ports(&batter);
   printf("set_batter_from_ports(&batter );\n");
 

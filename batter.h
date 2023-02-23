@@ -6,9 +6,11 @@
 
 // Breaks battery stats down into constituent parts
 typedef struct{
-  short volts;          // voltage read from port, units of 0.001 Volts
-  char  percent;        // percent full converted from voltage
-  char  mode;           // 0 for volts, 1 for percent
+  char[] name; //surnames for readability, append first initial if two on the same team
+  float war = 0.0;          // voltage read from port, units of 0.001 Volts
+  float  average 0.0;        // percent full converted from voltage
+  float  on_base_percentage 0.0;
+  float slugging = 0.0;           // 0 for volts, 1 for percent
 } batter_t;
 
 // Functions to implement for battery problem

@@ -11,17 +11,11 @@ int set_batter_from_ports(batter_t *batter){//initializes batterery values
 	if(BATTER_SCORE_PORT < 0){
 		return 1;
 	}
-	batter->volts = BATTER_SCORE_PORT;
-	if(batter->volts > 3800){
-		batter->percent = 100;
-	}
-	else if(batter->volts < 3000){
-		batter->percent = 0;
-	}
-	else{
-		batter->percent = (batter->volts - 3000) / 8;//calculates batterery percent
-	}
-	batter->mode = BATTER_STATUS_PORT;
+	batter->war = BATTER_SCORE_PORT;
+  //batter->average == APIget
+	//batter->on_base_percentage == APIget
+
+	batter->mode = BATTER_STATUS_PORT; //could modify for Injured / inactive / relegated
 	return 0;
 }
 
@@ -30,20 +24,21 @@ int set_batter_from_ports(batter_t *batter){//initializes batterery values
 int set_display_from_batter(batter_t batter, int *display){
 	*display = 0;//sets display to all zeroes
 	int numarray[10] = {0b0111111, 0b0000011, 0b1101101, 0b1100111, 0b1010011, 0b1110110, 0b1111110, 0b0100011, 0b1111111, 0b1110111};//array of bit combinations that make up the numbers
-
-	if(batter.percent > 89){//this block sets the batterery indicator levels
+  int leader = batter->war / 1;
+	float trailer = batter->war % 1;
+	if(trailer > .89){//this block sets the batterery indicator levels
 		*display = 0b11111 << 24;
 	}
-	else if(69 < batter.percent && batter.percent < 89){
+	else if(.69 < trailer && trailer < .89){
 		*display = 0b11110 << 24;
 	}
-	else if(49 < batter.percent && batter.percent < 69){
+	else if(49 < trailer && trailer < .69){
 		*display = 0b11100 << 24;
 	}
-	else if(29 < batter.percent && batter.percent < 49){
+	else if(29 < trailer && trailer < 49){
 		*display = 0b11000 << 24;
 	}
-	else if(4 < batter.percent && batter.percent < 29){
+	else if(4 < trailer && trailer < 29){
 		*display = 0b10000 << 24;
 	}
 	int dig1 = 0;
