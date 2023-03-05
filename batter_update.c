@@ -14,7 +14,7 @@ int set_batter_from_ports(batter_t *batter){//initializes batterery values
 	batter->war = BATTER_SCORE_PORT;
   //batter->average == APIget
 	//batter->on_base_percentage == APIget
-
+// skizz skumdrop schmeat
 	batter->mode = BATTER_STATUS_PORT; //could modify for Injured / inactive / relegated
 	return 0;
 }
@@ -94,10 +94,10 @@ int set_display_from_batter(batter_t batter, int *display){
 
 
 int batter_update(){
-	batter_t batter = {.volts=-100, .percent=-1, .mode=-1};//makes dummy batterery
+	batter_t batter = {.average=-100, .on_base_percentage=-1, .slugging=-1};//makes dummy batterery
 	int err = set_batter_from_ports(&batter);//sets batterery from ports
 	if(err != 1){
-		set_display_from_batter(batter, &BATTER_DISPLAY_PORT);//sets display from batterery
+		set_display_from_batter(batter, &BATTER_DISPLAY_PORT);//sets display from battery
 		return 0;
 	}
 	return 1;
